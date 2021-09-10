@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Sentry;
 
 namespace Aplicacao
 {
@@ -13,6 +8,7 @@ namespace Aplicacao
     {
         public static void Main(string[] args)
         {
+            SentrySdk.CaptureMessage("Hello Sentry");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -20,6 +16,13 @@ namespace Aplicacao
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseSentry(o =>
+                    {
+                        o.Dsn = "https://d2c9daaa4f314eb9bb1dd63011edcf75@o981789.ingest.sentry.io/5936300";
+                        o.Debug = true;
+                        o.TracesSampleRate = 1.0;
+                    });
+
                     webBuilder.UseStartup<Startup>();
                 });
     }
