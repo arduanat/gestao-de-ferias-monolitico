@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Dominio.Models.Colaborador>
+
+@{
+    ViewData["Title"] = "Colaboradores";
+}
+
+<h1 class="my-4">@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th class="px-0 text-left">
+                <h5>Matrícula</h5>
+            </th>
+            <th class="px-0 text-left">
+                <h5>Nome</h5>
+            </th>
+            <th class="px-0 text-end">
+                <a asp-action="Criar" class="text-end"><h5>Adicionar</h5></a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="px-0 text-left">
+                @Html.DisplayFor(modelItem => item.Matricula)
+            </td>
+            <td class="px-0 text-left">
+                @Html.DisplayFor(modelItem => item.Nome)
+            </td>
+            <td class="px-0 text-end">
+                <a asp-action="Editar" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Deletar" asp-route-id="@item.Id">Deletar</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

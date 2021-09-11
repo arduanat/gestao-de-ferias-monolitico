@@ -11,9 +11,13 @@ namespace Dominio.Models
             Matricula = matricula;
         }
 
-        public int Id { get; private set; }
-        public string Nome { get; private set; }
-        public string Matricula { get; private set; }
+        public Colaborador()
+        {
+        }
+
+        public int Id { get; set; }
+        public string Nome { get; set; }
+        public string Matricula { get; set; }
         public List<Ferias> Ferias { get; set; }
     }
 }

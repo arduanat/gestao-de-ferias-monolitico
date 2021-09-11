@@ -13,6 +13,9 @@ namespace Dominio.Models
             SituacaoDasFerias = situacaoDasFerias;
         }
 
+        public HomologacaoDeFerias()
+        {
+        }
         public int Id { get; private set; }
         public int FeriasId { get; private set; }
         public string CpfDoHomologador { get; set; }

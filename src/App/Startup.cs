@@ -1,5 +1,7 @@
+using Dominio.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,6 +22,8 @@ namespace Aplicacao
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddDbContext<Contexto>(option => option.UseSqlServer(Configuration["Context"]));
+            services.AddScoped<DbContext, Contexto>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

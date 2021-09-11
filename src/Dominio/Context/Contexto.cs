@@ -11,6 +11,10 @@ namespace Dominio.Context
         {
         }
 
+        public Contexto()
+        {
+        }
+
         public DbSet<Colaborador> Colaborador { get; set; }
         public DbSet<Ferias> Ferias { get; set; }
         public DbSet<PeriodoDeFerias> PeriodosDeFerias { get; set; }

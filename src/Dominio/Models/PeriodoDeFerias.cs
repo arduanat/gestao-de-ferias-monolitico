@@ -15,6 +15,10 @@ namespace Dominio.Models
             TipoDePeriodoDeFerias = tipoDePeriodoDeFerias;
         }
 
+        public PeriodoDeFerias()
+        {
+        }
+
         public int Id { get; private set; }
         public int FeriasId { get; private set; }
         public DateTime DataInicial { get; private set; }

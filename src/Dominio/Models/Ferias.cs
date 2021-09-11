@@ -13,6 +13,10 @@ namespace Dominio.Models
             PeriodosDeFerias = periodosDeFerias;
         }
 
+        public Ferias()
+        {
+        }
+
         public int Id { get; private set; }
         public int ColaboradorId { get; private set; }
         public int AnoDeExercicio { get; private set; }
