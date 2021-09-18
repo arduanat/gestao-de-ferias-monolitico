@@ -4,7 +4,7 @@ namespace Dominio.Models
 {
     public class Colaborador
     {
-        public Colaborador(int id, string nome, string matricula)
+        public Colaborador(string nome, string matricula, int id = 0)
         {
             Id = id;
             Nome = nome;

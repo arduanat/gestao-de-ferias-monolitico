@@ -15,16 +15,23 @@ namespace Dominio.Models
             TipoDePeriodoDeFerias = tipoDePeriodoDeFerias;
         }
 
+        public PeriodoDeFerias(DateTime dataInicial, int quantidadeDeDias, TipoDePeriodoDeFerias tipoDePeriodoDeFerias, int id = 0)
+        {
+            DataInicial = dataInicial;
+            DataFinal = CalcularDataFinal(quantidadeDeDias);
+            TipoDePeriodoDeFerias = tipoDePeriodoDeFerias;
+        }
+
         public PeriodoDeFerias()
         {
         }
 
-        public int Id { get; private set; }
-        public int FeriasId { get; private set; }
-        public DateTime DataInicial { get; private set; }
-        public DateTime DataFinal { get; private set; }
-        public TipoDePeriodoDeFerias TipoDePeriodoDeFerias { get; private set; }
-        public Ferias Ferias { get; private set; }
+        public int Id { get; set; }
+        public int FeriasId { get; set; }
+        public DateTime DataInicial { get; set; }
+        public DateTime DataFinal { get; set; }
+        public TipoDePeriodoDeFerias TipoDePeriodoDeFerias { get; set; }
+        public Ferias Ferias { get; set; }
 
         [NotMapped]
         public int QuantidadeDeDias
@@ -35,6 +42,12 @@ namespace Dominio.Models
         public bool QuantidadeDeDiasDeAbonoPecuniarioDiferenteDeDez()
         {
             return TipoDePeriodoDeFerias == TipoDePeriodoDeFerias.AbonoPecuniario && QuantidadeDeDias != 10;
+        }
+
+        private DateTime CalcularDataFinal(int quantidadeDeDias)
+        {
+            var dataFinal = DataInicial.AddDays(quantidadeDeDias-1);
+            return dataFinal;
         }
     }
 }

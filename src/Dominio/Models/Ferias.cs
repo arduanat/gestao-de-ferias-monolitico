@@ -17,12 +17,12 @@ namespace Dominio.Models
         {
         }
 
-        public int Id { get; private set; }
-        public int ColaboradorId { get; private set; }
-        public int AnoDeExercicio { get; private set; }
-        public Colaborador Colaborador { get; private set; }
-        public HomologacaoDeFerias Homologacao { get; private set; }
-        public List<PeriodoDeFerias> PeriodosDeFerias { get; private set; }
+        public int Id { get; set; }
+        public int ColaboradorId { get; set; }
+        public int AnoDeExercicio { get; set; }
+        public Colaborador Colaborador { get; set; }
+        public HomologacaoDeFerias Homologacao { get; set; }
+        public List<PeriodoDeFerias> PeriodosDeFerias { get; set; }
 
         public void Homologar(string cpf, SituacaoDasFerias situacaoDasFerias)
         {
