@@ -1,0 +1,227 @@
+﻿@model IEnumerable<Dominio.Models.Ferias>
+
+@using  Dominio.ValueObjects.Enums;
+
+@{
+    var ano = Model.Any(x => x.PeriodosDeFerias.Any()) ? Model.First().PeriodosDeFerias.First().DataInicial.Year : DateTime.Now.Year + 1;
+    ViewData["Title"] = $"Mapa de férias para {ano}";
+}
+
+<h1 class="my-4">@ViewData["Title"]</h1>
+
+<a href="#" data-bs-toggle="modal" data-bs-target="#homologar-multiplas-ferias" class="mb-3">
+    <em class="mdi mdi-check"></em> Homologar todas as férias
+</a>
+<div class="h-75">
+    @if (Model.Any())
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr class="text-center">
+                    <th class="text-start">
+                        Colaborador
+                    </th>
+                    <th class="mes">
+                        JAN
+                    </th>
+                    <th class="mes">
+                        FEV
+                    </th>
+                    <th class="mes">
+                        MAR
+                    </th>
+                    <th class="mes">
+                        ABR
+                    </th>
+                    <th class="mes">
+                        MAI
+                    </th>
+                    <th class="mes">
+                        JUN
+                    </th>
+                    <th class="mes">
+                        JUL
+                    </th>
+                    <th class="mes">
+                        AGO
+                    </th>
+                    <th class="mes">
+                        SET
+                    </th>
+                    <th class="mes">
+                        OUT
+                    </th>
+                    <th class="mes">
+                        NOV
+                    </th>
+                    <th class="mes">
+                        DEZ
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="scroller">
+                @foreach (var item in Model)
+                {
+                    var corDeFundo = item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Deferida ? "bg-success" :
+                                     item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Indeferida ? "bg-danger" :
+                                     "bg-primary";
+                    <tr class="text-center">
+                        <td class="text-start">
+                            <small class="font-10">@Html.DisplayFor(modelItem => item.Colaborador.Matricula)</small><br />
+                            <small>@Html.DisplayFor(modelItem => item.Colaborador.Nome)</small>
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeJaneiro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 1).ToList();
+                                foreach (var periodo in periodosDeJaneiro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeFevereiro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 2).ToList();
+                                foreach (var periodo in periodosDeFevereiro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeMarco = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 3).ToList();
+                                foreach (var periodo in periodosDeMarco)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeAbril = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 4).ToList();
+                                foreach (var periodo in periodosDeAbril)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeMaio = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 5).ToList();
+                                foreach (var periodo in periodosDeMaio)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeJunho = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 6).ToList();
+                                foreach (var periodo in periodosDeJunho)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeJulho = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 7).ToList();
+                                foreach (var periodo in periodosDeJulho)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeAgosto = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 8).ToList();
+                                foreach (var periodo in periodosDeAgosto)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeSetembro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 9).ToList();
+                                foreach (var periodo in periodosDeSetembro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeOutubro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 10).ToList();
+                                foreach (var periodo in periodosDeOutubro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeNovembro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 11).ToList();
+                                foreach (var periodo in periodosDeNovembro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @{
+                                var periodosDeDezembro = item.PeriodosDeFerias.Where(x => x.DataInicial.Month == 12).ToList();
+                                foreach (var periodo in periodosDeDezembro)
+                                {
+                                    <small class="badge @corDeFundo">@periodo.DataInicial.ToString("dd") - @periodo.DataFinal.ToString("dd")</small>
+                                }
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
+
+@section modals{
+    <div id="homologar-multiplas-ferias" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Homologar multiplas férias</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="HomologarMultiplasFerias" asp-controller="Ferias">
+                    <div class="modal-body">
+                        <div id="form-periodos">
+                            <div class="mb-3">
+                                <div id="idsDosColaboradores" hidden>
+
+                                    @{
+                                        var contador = 0;
+                                        foreach (var ferias in Model)
+                                        {
+                                            <input hidden value="@ferias.Id" name="feriasIds[@contador]" />
+                                            contador++;
+                                        }
+                                    }
+                                </div>
+                                <label class="form-label">Informe a situação</label>
+                                <select class="form-control" name="situacao">
+                                    <option value="Deferida">Deferir</option>
+                                    <option value="Indeferida">Indeferir</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
+                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}

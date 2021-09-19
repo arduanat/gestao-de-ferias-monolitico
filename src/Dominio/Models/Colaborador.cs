@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Dominio.Models
 {
@@ -19,5 +21,20 @@ namespace Dominio.Models
         public string Nome { get; set; }
         public string Matricula { get; set; }
         public List<Ferias> Ferias { get; set; }
+
+        public void CadastrarFerias(List<PeriodoDeFerias> periodosDeFerias)
+        {
+            if (Ferias.Any(x => x.AnoDeExercicio == DateTime.Now.Year))
+            {
+                Ferias.First(x => x.AnoDeExercicio == DateTime.Now.Year).AdicionarPeriodos(periodosDeFerias);
+            }
+            else
+            {
+                var feriasDoColaborador = new Ferias(this, DateTime.Now.Year);
+                feriasDoColaborador.AdicionarPeriodos(periodosDeFerias);
+                Ferias.Add(feriasDoColaborador);
+            }
+
+        }
     }
 }

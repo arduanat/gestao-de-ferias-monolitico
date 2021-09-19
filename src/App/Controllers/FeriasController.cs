@@ -3,7 +3,7 @@ using Dominio.Context;
 using Dominio.Models;
 using Dominio.ValueObjects.Enums;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,20 +19,54 @@ namespace App.Controllers
             this.contexto = contexto;
         }
 
-        public async Task<IActionResult> CriarParaMultiplosColaboradores(List<int> colaboradores, List<PeriodoDeFeriasViewModel> periodos)
+        public async Task<IActionResult> CriarParaMultiplosColaboradores(List<int> idsDosColaboradores, List<PeriodoDeFeriasViewModel> periodos)
         {
             List<Ferias> feriasDosColaboradores = new List<Ferias>();
-            foreach (var id in colaboradores)
+
+            var colaboradores = await contexto.Colaborador
+                                              .Include(x => x.Ferias)
+                                                  .ThenInclude(y => y.PeriodosDeFerias)
+                                              .Where(x => idsDosColaboradores.Contains(x.Id))
+                                              .ToListAsync();
+
+            var periodosDeFerias = periodos.Select(x => new PeriodoDeFerias(x.DataInicial, x.QuantidadeDeDias, TipoDePeriodoDeFerias.FeriasRegulares)).ToList();
+
+            foreach (var colaborador in colaboradores)
             {
-                var periodosDeFerias = periodos.Select(x => new PeriodoDeFerias(x.DataInicial, x.QuantidadeDeDias, TipoDePeriodoDeFerias.FeriasRegulares)).ToList();
-                var feriasDoColaborador = new Ferias(id, DateTime.Now.Year, periodosDeFerias);
-                feriasDosColaboradores.Add(feriasDoColaborador);
+                colaborador.CadastrarFerias(periodosDeFerias);
             }
 
-            await contexto.AddRangeAsync(feriasDosColaboradores);
+            contexto.UpdateRange(colaboradores);
             await contexto.SaveChangesAsync();
 
-            return RedirectToAction("", "Colaborador");
+            return RedirectToAction("Index", "Colaborador");
+        }
+
+        public async Task<IActionResult> MapaDeFerias()
+        {
+            var ferias = await contexto.Ferias
+                                       .AsNoTracking()
+                                       .Include(x => x.Colaborador)
+                                       .Include(x => x.PeriodosDeFerias)
+                                       .Include(x => x.Homologacao)
+                                       .ToListAsync();
+
+            return View(ferias);
+        }
+
+        public async Task<IActionResult> HomologarMultiplasFerias(List<int> feriasIds, SituacaoDasFerias situacao)
+        {
+            var homologacoes = new List<HomologacaoDeFerias>();
+            foreach (var id in feriasIds)
+            {
+                var homologacao = new HomologacaoDeFerias(id, "00000000000", situacao);
+                homologacoes.Add(homologacao);
+            }
+
+            await contexto.AddRangeAsync(homologacoes);
+            await contexto.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MapaDeFerias));
         }
     }
 }

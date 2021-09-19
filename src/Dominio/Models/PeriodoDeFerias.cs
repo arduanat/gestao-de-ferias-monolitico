@@ -6,10 +6,11 @@ namespace Dominio.Models
 {
     public class PeriodoDeFerias
     {
-        public PeriodoDeFerias(int feriasId, DateTime dataInicial, DateTime dataFinal, TipoDePeriodoDeFerias tipoDePeriodoDeFerias, int id = 0)
+        public PeriodoDeFerias(Ferias ferias, DateTime dataInicial, DateTime dataFinal, TipoDePeriodoDeFerias tipoDePeriodoDeFerias, int id = 0)
         {
             Id = id;
-            FeriasId = feriasId;
+            Ferias = ferias;
+            FeriasId = ferias.Id;
             DataInicial = dataInicial;
             DataFinal = dataFinal;
             TipoDePeriodoDeFerias = tipoDePeriodoDeFerias;
@@ -42,6 +43,11 @@ namespace Dominio.Models
         public bool QuantidadeDeDiasDeAbonoPecuniarioDiferenteDeDez()
         {
             return TipoDePeriodoDeFerias == TipoDePeriodoDeFerias.AbonoPecuniario && QuantidadeDeDias != 10;
+        }
+
+        public int ObterQuantidadeDeDias()
+        {
+            return (DataFinal - DataInicial).Days;
         }
 
         private DateTime CalcularDataFinal(int quantidadeDeDias)

@@ -162,7 +162,7 @@
                     colaboradoresSelecionados.map(function (index, colaborador) {
                         if (colaborador.checked) {
                             let id = $(colaborador).data("id");
-                            inputs += `<input hidden name="colaboradores[${index-1}]" value="${id}">`;
+                            inputs += `<input hidden name="idsDosColaboradores[${index-1}]" value="${id}">`;
                         }
                     });
 
