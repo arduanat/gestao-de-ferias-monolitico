@@ -18,7 +18,7 @@ namespace Aplicacao
                 {
                     webBuilder.UseSentry(o =>
                     {
-                        o.Dsn = "https://d2c9daaa4f314eb9bb1dd63011edcf75@o981789.ingest.sentry.io/5936300";
+                        o.Dsn = "https://45bb506aa66f4f06a20bc5033dc492ad@o981789.ingest.sentry.io/5974663";
                         o.Debug = true;
                         o.TracesSampleRate = 1.0;
                     });
