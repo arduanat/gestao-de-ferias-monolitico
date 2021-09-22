@@ -38,9 +38,9 @@ namespace Dominio.Models
             }
         }
 
-        public void Homologar(string cpf, SituacaoDasFerias situacaoDasFerias)
+        public void Homologar(SituacaoDasFerias situacaoDasFerias)
         {
-            Homologacao = new HomologacaoDeFerias(this.Id, cpf, situacaoDasFerias);
+            Homologacao = new HomologacaoDeFerias(this.Id, situacaoDasFerias);
         }
 
         private bool JaPossuiQuantidadeLimiteDeDiasCadastrado()

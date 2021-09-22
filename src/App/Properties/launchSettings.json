@@ -14,7 +14,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
-        "ASPNETCORE_Context": "Data Source=DESKTOP-Q2E512I\\SQLEXPRESS;Initial Catalog=GestaoDeFerias;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+        "ASPNETCORE_Context": "Server=tcp:tcc-gestao-de-ferias.database.windows.net,1433;Initial Catalog=GestaoDeFerias;Persist Security Info=False;User ID=stroinan;Password=$Vediant4393;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       }
     },
     "App": {
@@ -25,7 +25,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
         "ASPNETCORE_HOSTINGSTARTUPASSEMBLIES": "Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation",
-        "ASPNETCORE_Context": "Data Source=DESKTOP-Q2E512I\\SQLEXPRESS;Initial Catalog=GestaoDeFerias;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+        "ASPNETCORE_Context": "Server=tcp:tcc-gestao-de-ferias.database.windows.net,1433;Initial Catalog=GestaoDeFerias;Persist Security Info=False;User ID=stroinan;Password=$Vediant4393;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
       }
     }
   }
