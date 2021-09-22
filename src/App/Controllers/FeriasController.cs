@@ -59,7 +59,7 @@ namespace App.Controllers
             var homologacoes = new List<HomologacaoDeFerias>();
             foreach (var id in feriasIds)
             {
-                var homologacao = new HomologacaoDeFerias(id, "00000000000", situacao);
+                var homologacao = new HomologacaoDeFerias(id, situacao);
                 homologacoes.Add(homologacao);
             }
 
