@@ -24,8 +24,14 @@ namespace App.Controllers
             return View(colaboradores);
         }
 
-        public IActionResult Criar()
+        public async Task<IActionResult> Criar(int quantidade = 0)
         {
+            if(quantidade > 0)
+            {
+                await CriarMultiplos(quantidade);
+                return RedirectToAction(nameof(Index));
+            }
+
             return View();
         }
 
@@ -84,7 +90,7 @@ namespace App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> CriarMultiplos(int quantidade)
+        private async Task CriarMultiplos(int quantidade)
         {
             List<Colaborador> novosColaboradores = new List<Colaborador>();
 
@@ -98,7 +104,6 @@ namespace App.Controllers
 
             await contexto.AddRangeAsync(novosColaboradores);
             await contexto.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
     }
 }
