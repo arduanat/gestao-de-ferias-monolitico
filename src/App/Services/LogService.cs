@@ -9,14 +9,14 @@ namespace App.Services
 
         public LogService()
         {
-            uri = new Uri("");
+            uri = new Uri("https://gestao-de-ferias-log.azurewebsites.net");
         }
 
         public void SalvarLog(object log)
         {
             var cliente = new RestClient(uri);
 
-            var request = new RestRequest("Log", Method.POST) { RequestFormat = DataFormat.Json };
+            var request = new RestRequest("/Log", Method.POST) { RequestFormat = DataFormat.Json };
 
             request.AddJsonBody(log);
 
