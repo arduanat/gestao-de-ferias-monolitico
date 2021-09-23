@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Sentry;
 
-namespace Aplicacao
+namespace App
 {
     public class Program
     {
