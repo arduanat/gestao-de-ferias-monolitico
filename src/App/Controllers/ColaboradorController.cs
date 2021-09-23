@@ -6,7 +6,6 @@ using Dominio.Context;
 using Dominio.Models;
 using System.Collections.Generic;
 using System;
-using Microsoft.AspNetCore.Http;
 
 namespace App.Controllers
 {
@@ -77,18 +76,6 @@ namespace App.Controllers
             }
 
             return View(colaborador);
-        }
-
-        public async Task<IActionResult> Deletar(int id)
-        {
-            var colaborador = await contexto.Colaborador.FindAsync(id);
-
-            if (colaborador == null)
-                return NotFound();
-
-            contexto.Colaborador.Remove(colaborador);
-            await contexto.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
         }
 
         private async Task CriarMultiplos(int quantidade)

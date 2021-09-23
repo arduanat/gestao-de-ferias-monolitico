@@ -1,3 +1,5 @@
+using App.Middlewares;
+using App.Services;
 using Dominio.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -5,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Sentry.AspNetCore;
 
 namespace Aplicacao
 {
@@ -24,6 +25,7 @@ namespace Aplicacao
             services.AddControllersWithViews();
             services.AddDbContext<Contexto>(option => option.UseSqlServer("Server=tcp:tcc-gestao-de-ferias.database.windows.net,1433;Initial Catalog=GestaoDeFerias;Persist Security Info=False;User ID=stroinan;Password=$Vediant4393;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
             services.AddScoped<DbContext, Contexto>();
+            services.AddSingleton<LogService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,14 +41,16 @@ namespace Aplicacao
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UseHttpsRedirection();
+
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthorization();
 
-            app.UseSentryTracing();
+            app.UsarCronometro();
 
             app.UseEndpoints(endpoints =>
             {
