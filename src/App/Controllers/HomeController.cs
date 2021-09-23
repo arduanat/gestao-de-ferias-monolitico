@@ -5,7 +5,7 @@ using Sentry;
 using System;
 using System.Diagnostics;
 
-namespace Aplicacao.Controllers
+namespace App.Controllers
 {
     public class HomeController : Controller
     {

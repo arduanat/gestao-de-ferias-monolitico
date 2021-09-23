@@ -9,9 +9,6 @@
 
 <h1 class="my-4">@ViewData["Title"]</h1>
 
-<a href="#" data-bs-toggle="modal" data-bs-target="#homologar-multiplas-ferias" class="mb-3">
-    <em class="mdi mdi-check"></em> Homologar todas as férias
-</a>
 <div class="h-75">
     @if (Model.Any())
     {
@@ -184,44 +181,3 @@
         </table>
     }
 </div>
-
-@section modals{
-    <div id="homologar-multiplas-ferias" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Homologar multiplas férias</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form asp-action="HomologarMultiplasFerias" asp-controller="Ferias">
-                    <div class="modal-body">
-                        <div id="form-periodos">
-                            <div class="mb-3">
-                                <div id="idsDosColaboradores" hidden>
-
-                                    @{
-                                        var contador = 0;
-                                        foreach (var ferias in Model)
-                                        {
-                                            <input hidden value="@ferias.Id" name="feriasIds[@contador]" />
-                                            contador++;
-                                        }
-                                    }
-                                </div>
-                                <label class="form-label">Informe a situação</label>
-                                <select class="form-control" name="situacao">
-                                    <option value="Deferida">Deferir</option>
-                                    <option value="Indeferida">Indeferir</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-}

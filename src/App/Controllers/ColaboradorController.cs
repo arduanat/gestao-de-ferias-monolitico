@@ -6,6 +6,7 @@ using Dominio.Context;
 using Dominio.Models;
 using System.Collections.Generic;
 using System;
+using Microsoft.AspNetCore.Http;
 
 namespace App.Controllers
 {

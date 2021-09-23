@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Dominio.Models.Ferias>
+
+@{
+    ViewData["Title"] = "Férias dos colaboradores";
+}
+
+<h1 class="my-4">@ViewData["Title"]</h1>
+
+<a href="#" data-bs-toggle="modal" data-bs-target="#homologar-multiplas-ferias" class="mb-3">
+    <em class="mdi mdi-check"></em> Aprovar ou reprovar múltiplas férias
+</a>
+<div class="card h-75">
+    <div class="card-body scroller">
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <div class="d-inline-flex w-100">
+                    <div class="row w-100">
+                        <div class="col-md-4 col-12">
+                            <small>Nome</small>
+                            <h6>@Html.DisplayFor(modelItem => item.Colaborador.Nome)</h6>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small>Matrícula</small>
+                            <h6>@Html.DisplayFor(modelItem => item.Colaborador.Matricula)</h6>
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small>Períodos marcados</small>
+                            @foreach (var periodo in item.PeriodosDeFerias)
+                            {
+                                <h6>@periodo.DataInicial.ToString("dd/MM/yyyy") &mdash; @periodo.DataFinal.ToString("dd/MM/yyyy")</h6>
+                            }
+                        </div>
+                        <div class="col-md-3 col-12">
+                            <small>Status</small>
+                            <h6>@(item.Homologacao?.SituacaoDasFerias.ToString() ?? "Aguardando aprovação")</h6>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+            }
+        }
+        else
+        {
+            <div class="text-center">
+                <h6><em class="mdi mdi-alert"></em> Não há registros!</h6>
+            </div>
+        }
+    </div>
+</div>
+
+@section modals{
+    <div id="homologar-multiplas-ferias" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Aprovar ou reprovar multiplas férias</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="AprovarOuReprovarMultiplasFerias" asp-controller="Homologacao">
+                    <div class="modal-body">
+                        <div id="form-periodos">
+                            <div class="mb-3">
+                                <div id="idsDosColaboradores" hidden>
+
+                                    @{
+                                        var contador = 0;
+                                        foreach (var ferias in Model)
+                                        {
+                                            <input hidden value="@ferias.Id" name="feriasIds[@contador]" />
+                                            contador++;
+                                        }
+                                    }
+                                </div>
+                                <select class="form-control" name="situacao">
+                                    <option value="Deferida">Aprovar</option>
+                                    <option value="Indeferida">Reprovar</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
+                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
