@@ -4,6 +4,7 @@ using Dominio.Models;
 using Dominio.ValueObjects.Enums;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -33,8 +34,6 @@ namespace App.Controllers
 
         public async Task<IActionResult> CadastrarFeriasParaMultiplosColaboradores(List<int> idsDosColaboradores, List<PeriodoDeFeriasViewModel> periodos)
         {
-            List<Ferias> feriasDosColaboradores = new List<Ferias>();
-
             var colaboradores = await contexto.Colaborador
                                               .Include(x => x.Ferias)
                                                   .ThenInclude(y => y.PeriodosDeFerias)
@@ -45,13 +44,16 @@ namespace App.Controllers
 
             foreach (var colaborador in colaboradores)
             {
-                colaborador.CadastrarFerias(periodosDeFerias);
+                var colaboradorPossuiFeriasCadastradasParaOAnoDeExercicioAtual = colaborador.Ferias.Any(x => x.AnoDeExercicio == DateTime.Now.Year);
+
+                if (!colaboradorPossuiFeriasCadastradasParaOAnoDeExercicioAtual)
+                    colaborador.CadastrarFerias(periodosDeFerias);
             }
 
             contexto.UpdateRange(colaboradores);
             await contexto.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Colaborador");
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> MapaDeFerias()

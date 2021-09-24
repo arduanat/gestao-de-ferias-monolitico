@@ -1,7 +1,7 @@
-﻿using App.Models;
-using App.Services;
+﻿using App.Services;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -11,33 +11,49 @@ namespace App.Middlewares
     {
         private readonly RequestDelegate next;
         private readonly LogService logService;
+        private readonly List<string> rotasDeLog;
         public Cronometro(RequestDelegate next, LogService logService)
         {
             this.next = next;
             this.logService = logService;
+            rotasDeLog = ObterRotasDeLog();
         }
 
         public Task InvokeAsync(HttpContext contexto)
+        
         {
-            var cronometro = Stopwatch.StartNew();
-            var tempoDeResposta = 0;
-
-            contexto.Response.OnStarting(() => {
-                cronometro.Stop();
-                tempoDeResposta = (int)cronometro.ElapsedMilliseconds;
-                return Task.CompletedTask;
-            });
-
-            var log = new 
+            if (rotasDeLog.Contains(contexto.Request.Path))
             {
-                Tempo = tempoDeResposta,
-                Rota = contexto.Request.Path,
-                Data = DateTime.Now.ToString()
-            };
+                var cronometro = Stopwatch.StartNew();
+                var tempoDeResposta = 0;
 
-            logService.SalvarLog(log);
+                contexto.Response.OnStarting(() =>
+                {
+                    cronometro.Stop();
+                    tempoDeResposta = (int)cronometro.ElapsedMilliseconds;
 
+                    var log = new
+                    {
+                        Tempo = tempoDeResposta,
+                        Rota = $"{contexto.Request.Host}{contexto.Request.Path}",
+                        Data = DateTime.Now
+                    };
+                    logService.SalvarLog(log);
+
+                    return Task.CompletedTask;
+                });
+            }
             return this.next(contexto);
+        }
+
+        private List<string> ObterRotasDeLog()
+        {
+            return new List<string>()
+            {
+                "/Homologacao/AprovarOuReprovarMultiplasFerias",
+                "/Ferias/CadastrarFeriasParaMultiplosColaboradores",
+                "/Ferias/MapaDeFerias"
+            };
         }
     }
 }

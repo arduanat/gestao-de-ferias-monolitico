@@ -20,7 +20,7 @@ namespace App.Services
 
             request.AddJsonBody(log);
 
-            cliente.Execute(request);
+            var response = cliente.Execute(request);
         }
     }
 }
