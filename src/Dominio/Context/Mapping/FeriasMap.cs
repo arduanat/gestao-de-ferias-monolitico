@@ -11,7 +11,7 @@ namespace Dominio.Context.Mapping
             builder.HasKey(x => x.Id);
             builder.Property(x => x.AnoDeExercicio).IsRequired();
 
-            builder.HasOne(x => x.Colaborador).WithMany(x => x.Ferias).HasForeignKey(x => x.ColaboradorId);
+            builder.HasOne(x => x.Colaborador).WithMany(x => x.Ferias).HasForeignKey(x => x.ColaboradorId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

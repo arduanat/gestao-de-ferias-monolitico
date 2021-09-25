@@ -32,12 +32,11 @@ namespace App.Controllers
             return View(ferias);
         }
 
-        public async Task<IActionResult> CadastrarFeriasParaMultiplosColaboradores(List<int> idsDosColaboradores, List<PeriodoDeFeriasViewModel> periodos)
+        public async Task<IActionResult> Cadastrar(List<PeriodoDeFeriasViewModel> periodos)
         {
             var colaboradores = await contexto.Colaborador
                                               .Include(x => x.Ferias)
                                                   .ThenInclude(y => y.PeriodosDeFerias)
-                                              .Where(x => idsDosColaboradores.Contains(x.Id))
                                               .ToListAsync();
 
             var periodosDeFerias = periodos.Select(x => new PeriodoDeFerias(x.DataInicial, x.QuantidadeDeDias, TipoDePeriodoDeFerias.FeriasRegulares)).ToList();
@@ -55,6 +54,27 @@ namespace App.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Aprovar(List<int> feriasIds)
+        {
+            var feriasDosColaboradores = await contexto.Ferias.Include(x => x.Homologacao).Where(x => feriasIds.Contains(x.Id)).ToListAsync();
+
+            foreach (var ferias in feriasDosColaboradores)
+            {
+                var feriasNaoPossuiHomologacao = ferias.Homologacao is null;
+
+                if (feriasNaoPossuiHomologacao)
+                {
+                    ferias.Aprovar();
+                }
+            }
+
+            contexto.UpdateRange(feriasDosColaboradores);
+            await contexto.SaveChangesAsync();
+
+            return RedirectToAction(nameof(MapaDeFerias));
+        }
+
 
         public async Task<IActionResult> MapaDeFerias()
         {

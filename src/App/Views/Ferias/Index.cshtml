@@ -6,9 +6,12 @@
 
 <h1 class="my-4">@ViewData["Title"]</h1>
 
-<a href="#" data-bs-toggle="modal" data-bs-target="#homologar-multiplas-ferias" class="mb-3">
-    <em class="mdi mdi-check"></em> Aprovar ou reprovar múltiplas férias
-</a>
+@if (Model.Any())
+{
+    <div class="mb-3">
+        <a asp-action="Aprovar"><em class="mdi mdi-check"></em> Aprovar férias</a>
+    </div>
+}
 <div class="card h-75">
     <div class="card-body scroller">
         @if (Model.Any())
@@ -51,14 +54,14 @@
 </div>
 
 @section modals{
-    <div id="homologar-multiplas-ferias" class="modal" tabindex="-1">
+    <div id="aprovar-multiplas-ferias" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Aprovar ou reprovar multiplas férias</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form asp-action="AprovarOuReprovarMultiplasFerias" asp-controller="Homologacao">
+                <form asp-action="Aprovar" asp-controller="Ferias">
                     <div class="modal-body">
                         <div id="form-periodos">
                             <div class="mb-3">

@@ -38,11 +38,6 @@ namespace Dominio.Models
             }
         }
 
-        public void Homologar(SituacaoDasFerias situacaoDasFerias)
-        {
-            Homologacao = new HomologacaoDeFerias(this.Id, situacaoDasFerias);
-        }
-
         private bool JaPossuiQuantidadeLimiteDeDiasCadastrado()
         {
             return PeriodosDeFerias?.Sum(x => x.ObterQuantidadeDeDias()) == 30;
@@ -51,6 +46,11 @@ namespace Dominio.Models
         private bool NovosPeriodosUltrapassamQuantidadeLimiteDeDiasCadastrado(List<PeriodoDeFerias> periodosDeFerias)
         {
             return PeriodosDeFerias?.Sum(x => x.ObterQuantidadeDeDias()) + periodosDeFerias.Sum(x => x.ObterQuantidadeDeDias()) > 30;
+        }
+
+        public void Aprovar()
+        {
+            Homologacao = new HomologacaoDeFerias(this.Id, SituacaoDasFerias.Aprovada);
         }
     }
 }

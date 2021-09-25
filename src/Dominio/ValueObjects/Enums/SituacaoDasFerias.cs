@@ -2,7 +2,7 @@
 {
     public enum SituacaoDasFerias
     {
-        Deferida,
-        Indeferida
+        Aprovada,
+        Reprovada
     }
 }

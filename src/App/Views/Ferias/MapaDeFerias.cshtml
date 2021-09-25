@@ -59,8 +59,8 @@
             <tbody class="scroller">
                 @foreach (var item in Model)
                 {
-                    var corDeFundo = item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Deferida ? "bg-success" :
-                                     item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Indeferida ? "bg-danger" :
+                    var corDeFundo = item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Aprovada ? "bg-success" :
+                                     item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Reprovada ? "bg-danger" :
                                      "bg-primary";
                     <tr class="text-center">
                         <td class="text-start">
@@ -179,5 +179,15 @@
                 }
             </tbody>
         </table>
+    }
+    else
+    {
+        <div class="card h-75">
+            <div class="card-body scroller">
+                <div class="text-center">
+                    <h6><em class="mdi mdi-alert"></em> Não há registros!</h6>
+                </div>
+            </div>
+        </div>
     }
 </div>

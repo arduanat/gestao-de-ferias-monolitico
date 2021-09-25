@@ -13,7 +13,7 @@ namespace Dominio.Context.Mapping
             builder.HasKey(x => x.Id);
             builder.Property(x => x.SituacaoDasFerias).HasConversion(x => x.ToString(), x => (SituacaoDasFerias)Enum.Parse(typeof(SituacaoDasFerias), x));
 
-            builder.HasOne(x => x.Ferias).WithOne(x => x.Homologacao).HasForeignKey<HomologacaoDeFerias>(x => x.FeriasId);
+            builder.HasOne(x => x.Ferias).WithOne(x => x.Homologacao).HasForeignKey<HomologacaoDeFerias>(x => x.FeriasId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

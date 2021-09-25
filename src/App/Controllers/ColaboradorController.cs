@@ -20,7 +20,7 @@ namespace App.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var colaboradores = await contexto.Colaborador.OrderBy(x => x.Nome).ToListAsync();
+            var colaboradores = await contexto.Colaborador.Include(x => x.Ferias).OrderBy(x => x.Nome).ToListAsync();
             return View(colaboradores);
         }
 
@@ -28,7 +28,7 @@ namespace App.Controllers
         {
             if(quantidade > 0)
             {
-                await CriarMultiplos(quantidade);
+                await CriarMultiplosAleatoriamente(quantidade);
                 return RedirectToAction(nameof(Index));
             }
 
@@ -48,37 +48,7 @@ namespace App.Controllers
             return View(colaborador);
         }
 
-        public async Task<IActionResult> Editar(int? id)
-        {
-            if (id == null)
-                return NotFound();
-
-            var colaborador = await contexto.Colaborador.FindAsync(id);
-
-            if (colaborador == null)
-                return NotFound();
-
-            return View(colaborador);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, Colaborador colaborador)
-        {
-            if (id != colaborador.Id)
-                return NotFound();
-
-            if (ModelState.IsValid)
-            {
-                contexto.Update(colaborador);
-                await contexto.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(colaborador);
-        }
-
-        private async Task CriarMultiplos(int quantidade)
+        private async Task CriarMultiplosAleatoriamente(int quantidade)
         {
             List<Colaborador> novosColaboradores = new List<Colaborador>();
 

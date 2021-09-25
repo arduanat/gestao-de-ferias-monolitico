@@ -15,7 +15,7 @@ namespace Dominio.Context.Mapping
             builder.Property(x => x.DataFinal).IsRequired();
             builder.Property(x => x.TipoDePeriodoDeFerias).HasConversion(x => x.ToString(), x => (TipoDePeriodoDeFerias)Enum.Parse(typeof(TipoDePeriodoDeFerias), x));
             
-            builder.HasOne(x => x.Ferias).WithMany(x => x.PeriodosDeFerias).HasForeignKey(x => x.FeriasId);
+            builder.HasOne(x => x.Ferias).WithMany(x => x.PeriodosDeFerias).HasForeignKey(x => x.FeriasId).OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

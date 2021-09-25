@@ -6,55 +6,32 @@
 
 <h1 class="my-4">@ViewData["Title"]</h1>
 
+<div class="mb-3">
+    @if (Model.Any() && !Model.Any(x => x.Ferias.Any()))
+    {
+        <a href="#" class="me-3" id="botaoCadastrarFerias" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-multiplos-colaboradores">
+            <em class="mdi mdi-calendar"></em> Marcar férias
+        </a>
+    }
+    @if (!Model.Any())
+    {
+        <a asp-action="Criar" asp-route-quantidade="1000"><em class="mdi mdi-plus"></em> Criar colaboradores</a>
+    }
+</div>
 <div class="card h-75">
-    <div class="card-header">
-        <div class="row">
-            @if (Model.Any())
-            {
-                <div class="col-10">
-                    <input type="checkbox" id="botaoSelecionarTodos" class="me-3" />
-                    <label id="labelSelecionarTodos" for="selecionarTodos">Selecionar todos</label>
-                    <label id="labelMarcarFerias" style="display: none;">
-                        <a href="#" id="botaoCadastrarFerias" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-multiplos-colaboradores">
-                            <em class="mdi mdi-calendar"></em> Marcar férias
-                        </a>
-                    </label>
-                </div>
-                <div class="col-2">
-                    <a asp-action="Criar" class="float-end"><em class="mdi mdi-plus"></em> Novo colaborador</a>
-                </div>
-            }
-            else
-            {
-                <div class="col-12"> <a asp-action="Criar" class="float-end"><em class="mdi mdi-plus"></em> Novo colaborador</a></div>
-            }
-        </div>
-    </div>
-
     <div class="card-body scroller">
         @if (Model.Any())
         {
             @foreach (var item in Model)
             {
-                <div class="d-inline-flex w-100">
-                    <div class="me-3">
-                        <label for="checkbox@(item.Matricula)"></label>
-                        <input type="checkbox" id="checkbox@(item.Matricula)" data-id="@item.Id" class="colaborador-selecionado" />
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <small>Nome</small>
+                        <h6>@Html.DisplayFor(modelItem => item.Nome)</h6>
                     </div>
-                    <div class="row w-100">
-                        <div class="col-md-5 col-12">
-                            <small>Nome</small>
-                            <h6>@Html.DisplayFor(modelItem => item.Nome)</h6>
-                        </div>
-                        <div class="col-md-5 col-12">
-                            <small>Matrícula</small>
-                            <h6>@Html.DisplayFor(modelItem => item.Matricula)</h6>
-                        </div>
-                        <div class="col-md-2 col-12">
-                            <div class="float-end">
-                                <a asp-action="Editar" asp-route-id="@item.Id"><em class="mdi mdi-pencil text-primary"></em> Editar</a><br />
-                            </div>
-                        </div>
+                    <div class="col-md-6 col-12">
+                        <small>Matrícula</small>
+                        <h6>@Html.DisplayFor(modelItem => item.Matricula)</h6>
                     </div>
                 </div>
                 <hr />
@@ -74,14 +51,13 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Marcar férias dos colaboradores selecionados</h5>
+                    <h5 class="modal-title">Marcar férias de todos os colaboradores</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form asp-action="CadastrarFeriasParaMultiplosColaboradores" asp-controller="Ferias">
+                <form asp-action="Cadastrar" asp-controller="Ferias">
                     <div class="modal-body">
                         <div id="form-periodos">
                             <div class="mb-3">
-                                <div id="idsDosColaboradores" hidden></div>
                                 <label class="form-label">Selecione a quantidade de dias</label>
                                 <select class="form-control" name="periodos[0].QuantidadeDeDias">
                                     <option value="10">10 Dias</option>
@@ -104,107 +80,4 @@
             </div>
         </div>
     </div>
-}
-
-@section scripts {
-    <script>
-        $(function () {
-
-            "use strict";
-            window.MarcarFerias = window.MarcarFerias || {};
-
-            let colaboradoresSelecionados = $(".colaborador-selecionado");
-            let labelMarcarFerias = $('#labelMarcarFerias');
-            let labelSelecionarTodos = $('#labelSelecionarTodos');
-            let botaoSelecionarTodos = $('#botaoSelecionarTodos');
-            let botaoCadastrarFerias = $('#botaoCadastrarFerias');
-            let divIdsDosColaboradores = $('#idsDosColaboradores');
-
-            MarcarFerias.SelecionarTodos = function () {
-                botaoSelecionarTodos.click(function () {
-                    if (this.checked) {
-                        MarcarFerias.SelecionarTodosOsColaboradores();
-                        MarcarFerias.ExibirLabelMarcarFerias();
-                        MarcarFerias.EsconderLabelSelecionarTodos();
-                    } else {
-                        MarcarFerias.DesselecionarTodosOsColaboradores();
-                        MarcarFerias.EsconderLabelMarcarFerias();
-                        MarcarFerias.ExibirLabelSelecionarTodos();
-                    }
-                });
-            };
-
-            MarcarFerias.SelecionarColaborador = function () {
-                colaboradoresSelecionados.click(function () {
-                    let todosOsColaboradoresEstaoDesselecionados = true;
-
-                    colaboradoresSelecionados.map(function (index, colaborador) {
-                        if (colaborador.checked)
-                            todosOsColaboradoresEstaoDesselecionados = false;
-                    });
-
-                    if (todosOsColaboradoresEstaoDesselecionados) {
-                        MarcarFerias.DesselecionarBotaoSelecionarTodos();
-                        MarcarFerias.ExibirLabelSelecionarTodos();
-                        MarcarFerias.EsconderLabelMarcarFerias();
-                    } else {
-                        MarcarFerias.EsconderLabelSelecionarTodos();
-                        MarcarFerias.ExibirLabelMarcarFerias();
-                    }
-                });
-            };
-
-            MarcarFerias.PreencherInputsDeColaboradoresSelecionados = function (){
-                botaoCadastrarFerias.click(function () {
-                    let inputs = '';
-
-                    colaboradoresSelecionados.map(function (index, colaborador) {
-                        if (colaborador.checked) {
-                            let id = $(colaborador).data("id");
-                            inputs += `<input hidden name="idsDosColaboradores[${index-1}]" value="${id}">`;
-                        }
-                    });
-
-                    divIdsDosColaboradores.html(inputs);
-                });
-            }
-
-            MarcarFerias.SelecionarTodosOsColaboradores = function () {
-                colaboradoresSelecionados.prop("checked", true);
-            };
-
-            MarcarFerias.DesselecionarTodosOsColaboradores = function () {
-                colaboradoresSelecionados.prop("checked", false);
-            };
-
-            MarcarFerias.DesselecionarBotaoSelecionarTodos = function () {
-                botaoSelecionarTodos.prop("checked", false);
-            };
-
-            MarcarFerias.ExibirLabelMarcarFerias = function () {
-                labelMarcarFerias.show();
-            };
-
-            MarcarFerias.EsconderLabelMarcarFerias = function () {
-                labelMarcarFerias.hide();
-            };
-
-            MarcarFerias.ExibirLabelSelecionarTodos = function () {
-                labelSelecionarTodos.show();
-            };
-
-            MarcarFerias.EsconderLabelSelecionarTodos = function () {
-                labelSelecionarTodos.hide();
-            };
-
-            MarcarFerias.IniciarEventos = function () {
-                MarcarFerias.SelecionarTodos();
-                MarcarFerias.SelecionarColaborador();
-                MarcarFerias.PreencherInputsDeColaboradoresSelecionados();
-            };
-
-            MarcarFerias.IniciarEventos();
-        });
-
-    </script>
 }

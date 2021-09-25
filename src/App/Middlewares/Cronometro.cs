@@ -50,8 +50,8 @@ namespace App.Middlewares
         {
             return new List<string>()
             {
-                "/Homologacao/AprovarOuReprovarMultiplasFerias",
-                "/Ferias/CadastrarFeriasParaMultiplosColaboradores",
+                "/Ferias/Cadastrar",
+                "/Ferias/Aprovar",
                 "/Ferias/MapaDeFerias"
             };
         }
