@@ -35,8 +35,7 @@ namespace App.Middlewares
                     var log = new
                     {
                         Tempo = tempoDeResposta,
-                        Rota = $"{contexto.Request.Host}{contexto.Request.Path}",
-                        Data = DateTime.Now
+                        Rota = $"{contexto.Request.Host}{contexto.Request.Path}"
                     };
                     logService.SalvarLog(log);
 
@@ -50,6 +49,7 @@ namespace App.Middlewares
         {
             return new List<string>()
             {
+                "/Colaborador/Criar",
                 "/Ferias/Cadastrar",
                 "/Ferias/Aprovar",
                 "/Ferias/MapaDeFerias"
