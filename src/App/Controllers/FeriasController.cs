@@ -55,9 +55,15 @@ namespace App.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Aprovar(List<int> feriasIds)
+        public async Task<IActionResult> Aprovar()
+        
         {
-            var feriasDosColaboradores = await contexto.Ferias.Include(x => x.Homologacao).Where(x => feriasIds.Contains(x.Id)).ToListAsync();
+            var colaboradores = await contexto.Colaborador
+                                              .Include(x => x.Ferias)
+                                                  .ThenInclude(x => x.Homologacao)
+                                              .ToListAsync();
+
+            var feriasDosColaboradores = colaboradores.SelectMany(x => x.Ferias).ToList();
 
             foreach (var ferias in feriasDosColaboradores)
             {
@@ -80,9 +86,9 @@ namespace App.Controllers
         {
             var ferias = await contexto.Ferias
                                        .AsNoTracking()
-                                       .Include(x => x.Colaborador)
-                                       .Include(x => x.PeriodosDeFerias)
                                        .Include(x => x.Homologacao)
+                                       .Include(x => x.PeriodosDeFerias)
+                                       .Include(x => x.Colaborador)
                                        .ToListAsync();
 
             return View(ferias);
