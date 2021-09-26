@@ -9,13 +9,13 @@
 <div class="mb-3">
     @if (Model.Any() && !Model.Any(x => x.Ferias.Any()))
     {
-        <a href="#" class="me-3" id="botaoCadastrarFerias" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-multiplos-colaboradores">
+        <a href="#" class="me-3" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-todos-os-colaboradores">
             <em class="mdi mdi-calendar"></em> Marcar férias
         </a>
     }
     @if (!Model.Any())
     {
-        <a asp-action="Criar" asp-route-quantidade="1000"><em class="mdi mdi-plus"></em> Criar colaboradores</a>
+        <a href="#" data-bs-toggle="modal" data-bs-target="#criar-multiplos-colaboradores"><em class="mdi mdi-plus"></em> Criar colaboradores</a>
     }
 </div>
 <div class="card h-75">
@@ -47,7 +47,31 @@
 </div>
 
 @section modals{
-    <div id="cadastrar-ferias-para-multiplos-colaboradores" class="modal" tabindex="-1">
+    <div id="criar-multiplos-colaboradores" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar múltiplos colaboradores aleatoriamente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form asp-action="Criar">
+                    <div class="modal-body">
+                        <div id="form-periodos">
+                            <div class="mb-3">
+                                <label class="form-label">Informe a quantidade de colaboradores</label>
+                                <input type="number" name="quantidade" min="1" value="1" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
+                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="cadastrar-ferias-para-todos-os-colaboradores" class="modal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">

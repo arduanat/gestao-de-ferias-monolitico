@@ -24,9 +24,11 @@ namespace App.Controllers
             return View(colaboradores);
         }
 
-        public async Task<IActionResult> Criar(int quantidade = 0)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Criar(int quantidade)
         {
-            if(quantidade > 0)
+            if (quantidade > 0)
             {
                 await CriarMultiplosAleatoriamente(quantidade);
                 return RedirectToAction(nameof(Index));
@@ -35,22 +37,9 @@ namespace App.Controllers
             return View();
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Criar(Colaborador colaborador)
-        {
-            if (ModelState.IsValid)
-            {
-                contexto.Add(colaborador);
-                await contexto.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(colaborador);
-        }
-
         private async Task CriarMultiplosAleatoriamente(int quantidade)
         {
-            List<Colaborador> novosColaboradores = new List<Colaborador>();
+            var novosColaboradores = new List<Colaborador>();
 
             for (int i = 0; i < quantidade; i++)
             {
