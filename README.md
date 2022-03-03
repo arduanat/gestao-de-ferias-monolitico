@@ -1,1 +1,1 @@
-# gestao-de-ferias-monolitico
+Aplicação desenvolvida para execução de testes da monografia entitulada de "ANÁLISE DE DESEMPENHO EM FUNCIONALIDADES DE UM APLICATIVO WEB: COMPARANDO AS ARQUITETURAS MONOLÍTICA E MICROSSERVIÇOS" submetida à Fundação Universidade Federal de Rondônia como requisito parcial à obtenção do título de Bacharel em Ciência da Computação.
