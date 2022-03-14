@@ -9,7 +9,7 @@ namespace App.Services
 
         public LogService()
         {
-            uri = new Uri("https://gestao-de-ferias-log.azurewebsites.net");
+            uri = new Uri("");
         }
 
         public void SalvarLog(object log)

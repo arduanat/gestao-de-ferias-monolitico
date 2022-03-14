@@ -1,18 +1,20 @@
 ﻿@model IEnumerable<Dominio.Models.Ferias>
 
-@using  Dominio.ValueObjects.Enums;
+@using Dominio.ValueObjects.Enums;
 
 @{
     var ano = Model.Any(x => x.PeriodosDeFerias.Any()) ? Model.First().PeriodosDeFerias.First().DataInicial.Year : DateTime.Now.Year + 1;
-    ViewData["Title"] = $"Mapa de férias para {ano}";
+    ViewData["Title"] = $"Mapa de férias dos colaboradores";
 }
 
-<h1 class="my-4">@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 
-<div class="h-75">
+<label class="my-2">Total de Colaboradores: <strong> @Model.Count()</strong></label>
+
+<div class="scroller " style="max-height: 655px">
     @if (Model.Any())
     {
-        <table class="table table-bordered">
+        <table class="table table-bordered "  >
             <thead>
                 <tr class="text-center">
                     <th class="text-start">
@@ -60,8 +62,8 @@
                 @foreach (var item in Model)
                 {
                     var corDeFundo = item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Aprovada ? "bg-success" :
-                                     item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Reprovada ? "bg-danger" :
-                                     "bg-primary";
+                    item.Homologacao?.SituacaoDasFerias == SituacaoDasFerias.Reprovada ? "bg-danger" :
+                    "bg-primary";
                     <tr class="text-center">
                         <td class="text-start">
                             <small>@Html.DisplayFor(modelItem => item.Colaborador.Matricula)</small><br />

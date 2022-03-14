@@ -4,21 +4,23 @@
     ViewData["Title"] = "Colaboradores";
 }
 
-<h1 class="my-4">@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 
-<div class="mb-3">
+<div class="mb-3 mt-4 d-block">
     @if (Model.Any() && !Model.Any(x => x.Ferias.Any()))
     {
-        <a href="#" class="me-3" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-todos-os-colaboradores">
+        <button class="me-3 btn btn-primary" data-bs-toggle="modal" data-bs-target="#cadastrar-ferias-para-todos-os-colaboradores">
             <em class="mdi mdi-calendar"></em> Marcar férias
-        </a>
+        </button>
     }
     @if (!Model.Any())
     {
         <a href="#" data-bs-toggle="modal" data-bs-target="#criar-multiplos-colaboradores"><em class="mdi mdi-plus"></em> Criar colaboradores</a>
     }
+
+    <label class="float-end mt-3">Total de Colaboradores: <strong> @Model.Count()</strong></label>
 </div>
-<div class="card h-75">
+<div class="card h-50">
     <div class="card-body scroller">
         @if (Model.Any())
         {
@@ -47,61 +49,61 @@
 </div>
 
 @section modals{
-    <div id="criar-multiplos-colaboradores" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Criar múltiplos colaboradores aleatoriamente</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form asp-action="Criar">
-                    <div class="modal-body">
-                        <div id="form-periodos">
-                            <div class="mb-3">
-                                <label class="form-label">Informe a quantidade de colaboradores</label>
-                                <input type="number" name="quantidade" min="1" value="1" class="form-control" />
-                            </div>
+<div id="criar-multiplos-colaboradores" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Criar múltiplos colaboradores aleatoriamente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Criar">
+                <div class="modal-body">
+                    <div id="form-periodos">
+                        <div class="mb-3">
+                            <label class="form-label">Informe a quantidade de colaboradores</label>
+                            <input type="number" name="quantidade" min="1" value="1" class="form-control" />
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
+                </div>
+            </form>
         </div>
     </div>
-    <div id="cadastrar-ferias-para-todos-os-colaboradores" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Marcar férias de todos os colaboradores</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form asp-action="Cadastrar" asp-controller="Ferias">
-                    <div class="modal-body">
-                        <div id="form-periodos">
-                            <div class="mb-3">
-                                <label class="form-label">Selecione a quantidade de dias</label>
-                                <select class="form-control" name="periodos[0].QuantidadeDeDias">
-                                    <option value="10">10 Dias</option>
-                                    <option value="15">15 Dias</option>
-                                    <option value="20">20 Dias</option>
-                                    <option value="30">30 Dias</option>
-                                </select>
-                            </div>
-                            <div class="mb-3">
-                                <label class="form-label">Informe a data inicial do período</label>
-                                <input class="form-control" type="date" name="periodos[0].DataInicial" />
-                            </div>
+</div>
+<div id="cadastrar-ferias-para-todos-os-colaboradores" class="modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Marcar férias dos colaboradores</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form asp-action="Cadastrar" asp-controller="Ferias">
+                <div class="modal-body">
+                    <div id="form-periodos">
+                        <div class="mb-3">
+                            <label class="form-label">Selecione a quantidade de dias</label>
+                            <select class="form-control" name="periodos[0].QuantidadeDeDias">
+                                <option value="10">10 Dias</option>
+                                <option value="15">15 Dias</option>
+                                <option value="20">20 Dias</option>
+                                <option value="30">30 Dias</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Informe a data inicial do período</label>
+                            <input class="form-control" type="date" name="periodos[0].DataInicial" />
                         </div>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
-                        <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><em class="mdi mdi-close"></em> Cancelar</button>
+                    <button type="submit" class="btn btn-primary"><em class="mdi mdi-send"></em> Enviar</button>
+                </div>
+            </form>
         </div>
     </div>
+</div>
 }

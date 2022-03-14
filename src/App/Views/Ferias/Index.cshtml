@@ -4,15 +4,17 @@
     ViewData["Title"] = "Férias dos colaboradores";
 }
 
-<h1 class="my-4">@ViewData["Title"]</h1>
+<h3>@ViewData["Title"]</h3>
 
 @if (Model.Any())
 {
-    <div class="mb-3">
-        <a asp-action="Aprovar"><em class="mdi mdi-check"></em> Aprovar férias</a>
+    <div class="mb-3 mt-4 d-block">
+        <a class="me-3 btn btn-primary" asp-action="Aprovar"><em class="mdi mdi-check"></em> Aprovar férias</a>
+
+        <label class="float-end mt-3">Total de Colaboradores: <strong> @Model.Count()</strong></label>
     </div>
 }
-<div class="card h-75">
+<div class="card h-50">
     <div class="card-body scroller">
         @if (Model.Any())
         {

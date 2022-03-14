@@ -23,7 +23,7 @@ namespace App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddDbContext<Contexto>(option => option.UseSqlServer("Server=tcp:tcc-gestao-de-ferias.database.windows.net,1433;Initial Catalog=GestaoDeFerias;Persist Security Info=False;User ID=stroinan;Password=$Vediant4393;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"));
+            services.AddDbContext<Contexto>(option => option.UseSqlServer(""));
             services.AddScoped<DbContext, Contexto>();
             services.AddSingleton<LogService>();
         }
